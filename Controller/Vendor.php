@@ -30,6 +30,9 @@ class Controller_Vendor extends Controller_Core_Action
 	{
 		try {
 			$vendorId = $this->getRequest()->getParam('id');
+			if (!$vendorId) {
+				throw new Exception("Invalid ID.", 1);
+			}
 
 			$vendor = Ccc::getModel('Vendor_Row')->load($vendorId);
 			$address = Ccc::getModel('Vendor_Address_Row')->load($vendorId);
