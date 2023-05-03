@@ -104,13 +104,6 @@ class Controller_Core_Action
         $this->getView()->render();
     }
 
-    // public function redirect($action = null, $controller = null, $params = [], $reset = false)
-    // {
-    //     $url = $this->getView()->getUrl($action, $controller, $params, $reset);
-    //     header("location: {$url}");
-    //     exit();
-    // }
-
     public function redirect($action = null,$controller = null,$params = [],$reset = false)
     {
         $url = $this->getUrl()->getUrl($action,$controller,$params,$reset);
