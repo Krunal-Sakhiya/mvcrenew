@@ -52,7 +52,7 @@ class Model_Core_Adapter
 		$connect = $this->connect();
 		$result = mysqli_query($connect, $query);
 		if ($result) {
-			return $result->insert_id;
+			return $connect->insert_id;
 		}
 		return false;
 	}

@@ -3,7 +3,7 @@ class Controller_Product extends Controller_Core_Action
 {
 	public function gridAction()
 	{
-		$query = "SELECT * FROM `product`";
+		$query = "SELECT * FROM `product` ORDER BY `product_id` DESC";
 		$adapter = new Model_Core_Adapter();
 		$products = $adapter->fetchAll($query);
 
@@ -32,7 +32,7 @@ class Controller_Product extends Controller_Core_Action
 		$postData = $request->getPost();
 		$postData['create_at'] = date('Y-m-d h:i:s');
 
-		$query = "INSERT INTO `product`(`name`, `cost`, `price`, `sku`, `status`, `quantity`, `description`, `color`, `material`) VALUES ('$postData[name]','$postData[cost]','$postData[price]','$postData[sku]','$postData[status]','$postData[quantity]','$postData[description]','$postData[color]','$postData[material]')";
+		$query = "INSERT INTO `product`(`name`, `cost`, `price`, `sku`, `status`, `quantity`, `description`, `color`, `material`, `create_at`) VALUES ('$postData[name]','$postData[cost]','$postData[price]','$postData[sku]','$postData[status]','$postData[quantity]','$postData[description]','$postData[color]','$postData[material]', '$postData[create_at]')";
 
 		$adapter = new Model_Core_Adapter();
 		$result = $adapter->insert($query);
@@ -45,7 +45,7 @@ class Controller_Product extends Controller_Core_Action
 		$request = new Model_Core_Request();
 		$id = $request->getParam('id');
 		$postData = $request->getPost();
-		$postData['create_at'] = date('Y-m-d h:i:s');
+		$postData['update_at'] = date('Y-m-d h:i:s');
 
 		$query = "UPDATE `product` SET 
 							`name`='$postData[name]',
@@ -56,7 +56,8 @@ class Controller_Product extends Controller_Core_Action
 							`quantity`='$postData[quantity]',
 							`description`='$postData[description]',
 							`color`='$postData[color]',
-							`material`='$postData[material]' 
+							`material`='$postData[material]',
+							`update_at`='$postData[update_at]'
 							WHERE `product_id` = '{$id}'";
 		$adapter = $this->getAdapter();
 		$adapter->update($query);

@@ -37,6 +37,8 @@
 				<th>Small Id</th>
 				<th>Thumbnail Id</th>
 				<th>Base Id</th>
+				<th>Create_At</th>
+				<th>Update_At</th>
 				<th></th>
 				<th></th>
 				<th></th>
@@ -58,6 +60,8 @@
 				<td><?php echo $product['small_id']; ?></td>
 				<td><?php echo $product['thumbnail_id']; ?></td>
 				<td><?php echo $product['base_id']; ?></td>
+				<td><?php echo $product['create_at']; ?></td>
+				<td><?php echo $product['update_at']; ?></td>
 				<td>Media</td>
 				<td><a href="index.php?c=product&a=edit&id=<?php echo $product['product_id']; ?>">Edit</a></td>
 				<td><a href="index.php?c=product&a=delete&id=<?php echo $product['product_id']; ?>">Delete</a></td>
@@ -69,4 +73,3 @@
 	<?php require_once 'view/html/footer.phtml'; ?>
 </body>
 </html>
-
