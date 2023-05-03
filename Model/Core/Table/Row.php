@@ -183,7 +183,7 @@ class Model_Core_Table_Row
 			$result = $this->getTable()->update($this->data, $condition);
 			if($result){
 				$this->load($id);
-				return true;
+				return $this;
 			}
 			return false;		
 		}

@@ -46,12 +46,17 @@ $address = $this->address;
 				</div>
 			</div>
 
-			<div class="row mb-3">
-				<label for="inputPassword3" class="col-sm-2 col-form-label">Gender</label>
+			<fieldset class="row mb-3">
+				<legend class="col-form-label col-sm-2 pt-0">Color</legend>
 				<div class="col-sm-10">
-					<input type="text" name="vendor[gender]" class="form-control" value="<?php echo $vendor->gender; ?>">
+					<div class="form-check">
+						<select name="vendor[gender]" class="form-select" aria-label="Default select example">
+							<option value="male" <?php if ($vendor->gender === 'male') { echo "selected";} ?>> male </option>
+    						<option value="female" <?php if ($vendor->gender === 'female') { echo "selected"; } ?>> female </option>
+						</select>
+					</div>
 				</div>
-			</div>
+			</fieldset>
 
 			<div class="row mb-3">
 				<label for="inputPassword3" class="col-sm-2 col-form-label">Mobile</label>
@@ -72,8 +77,10 @@ $address = $this->address;
 				<div class="col-sm-10">
 					<div class="form-check">
 						<select name="vendor[status]" class="form-select" aria-label="Default select example">
-							<option value="1">active</option>
-							<option value="2">inactive</option>
+							<?php foreach($vendor->getTable()->getStatusOptions() as $key as $value): ?>
+							<?php $selected = ($key == $vendor->getStatus()) ? 'selected' : '' ?>
+							<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value; ?></option>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>

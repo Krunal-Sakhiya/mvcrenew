@@ -1,10 +1,10 @@
 <?php
-class Model_Vendor_Row extends Model_Core_Table_Row
+class Model_Product_Row extends Model_Core_Table_Row
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->setTableClass('Model_Vendor');
+		$this->setTableClass('Model_Product');
 	}
 
 	public function getStatus()
@@ -12,7 +12,7 @@ class Model_Vendor_Row extends Model_Core_Table_Row
 		if ($this->status) {
 			return $this->status;
 		}
-		return Model_Vendor::STATUS_DEFAULT;
+		return Model_Product::STATUS_DEFAULT;
 	}
 
 	public function getStatusText($status)
@@ -22,6 +22,9 @@ class Model_Vendor_Row extends Model_Core_Table_Row
 			return $statuses[$this->status];
 		}
 
-		return $statuses[Model_Vendor::STATUS_DEFAULT];
+		return $statuses[Model_Product::STATUS_DEFAULT];
 	}
+
+
+
 }

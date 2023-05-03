@@ -1,3 +1,4 @@
+<?php $products = $this->products; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,24 +48,24 @@
 		<?php foreach ($products as $product) : ?>
 		<tbody>
 			<tr>
-				<td><?php echo $product['product_id']; ?></td>
-				<td><?php echo $product['name']; ?></td>
-				<td><?php echo $product['sku']; ?></td>
-				<td><?php echo $product['cost']; ?></td>
-				<td><?php echo $product['price']; ?></td>
-				<td><?php echo $product['quantity']; ?></td>
-				<td><?php echo $product['description']; ?></td>
-				<td><?php echo $product['status']; ?></td>
-				<td><?php echo $product['color']; ?></td>
-				<td><?php echo $product['material']; ?></td>
-				<td><?php echo $product['small_id']; ?></td>
-				<td><?php echo $product['thumbnail_id']; ?></td>
-				<td><?php echo $product['base_id']; ?></td>
-				<td><?php echo $product['create_at']; ?></td>
-				<td><?php echo $product['update_at']; ?></td>
+				<td><?php echo $product->product_id; ?></td>
+				<td><?php echo $product->name; ?></td>
+				<td><?php echo $product->sku; ?></td>
+				<td><?php echo $product->cost; ?></td>
+				<td><?php echo $product->price; ?></td>
+				<td><?php echo $product->quantity; ?></td>
+				<td><?php echo $product->description; ?></td>
+				<td><?php echo $product->getStatusText($product->status); ?></td>
+				<td><?php echo $product->color; ?></td>
+				<td><?php echo $product->material; ?></td>
+				<td><?php echo $product->small_id; ?></td>
+				<td><?php echo $product->thumbnail_id; ?></td>
+				<td><?php echo $product->base_id; ?></td>
+				<td><?php echo $product->create_at; ?></td>
+				<td><?php echo $product->update_at; ?></td>
 				<td>Media</td>
-				<td><a href="index.php?c=product&a=edit&id=<?php echo $product['product_id']; ?>">Edit</a></td>
-				<td><a href="index.php?c=product&a=delete&id=<?php echo $product['product_id']; ?>">Delete</a></td>
+				<td><a href="index.php?c=product&a=edit&id=<?php echo $product->product_id; ?>">Edit</a></td>
+				<td><a href="index.php?c=product&a=delete&id=<?php echo $product->product_id; ?>">Delete</a></td>
 			</tr>
 		</tbody>
 		<?php endforeach; ?>
