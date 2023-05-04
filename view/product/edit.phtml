@@ -73,7 +73,6 @@
 							<?php foreach($product->getTable()->getStatusOptions() as $key => $value): ?>
 							<?php $selected = ($key == $product->getStatus()) ? 'selected' : '' ?>
 								<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value; ?></option>
-								<option value="2">inactive</option>
 							<?php endforeach; ?>
 						</select>
 					</div>
