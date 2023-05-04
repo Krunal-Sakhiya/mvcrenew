@@ -146,7 +146,6 @@ class Model_Core_Table_Row
 		$condition[$this->getPrimaryKey()] = $id;
 		$result = $this->getTable()->delete($condition);
 		if ($result) {
-			// $this->removeData();
 			return true;
 		}
 		return false;
