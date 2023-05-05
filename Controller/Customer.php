@@ -33,10 +33,13 @@ class Controller_Customer extends Controller_Core_Action
 			}
 
 			$customer = Ccc::getModel('Customer_Row')->load($id);
-			$bId = $customer->billing_address_id;
-			$sId = $customer->shipping_address_id;
-			$billingAddress = Ccc::getModel('Customer_Row')->getBillingAddress($bId);
-			$shippingAddress = Ccc::getModel('Customer_Row')->getShippingAddress($sId);
+			$billingAddress = $customer->getBillingAddress();
+			$shippingAddress = $customer->getShippingAddress();
+			
+			// $bId = $customer->billing_address_id;
+			// $sId = $customer->shipping_address_id;
+			// $billingAddress = Ccc::getModel('Customer_Row')->getBillingAddress($bId);
+			// $shippingAddress = Ccc::getModel('Customer_Row')->getShippingAddress($sId);
 
 			$this->getView()->setTemplate('customer/edit.phtml')->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
 			$this->render();
