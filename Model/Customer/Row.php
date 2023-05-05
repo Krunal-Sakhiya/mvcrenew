@@ -26,30 +26,15 @@ class Model_Customer_Row extends Model_Core_Table_Row
 		return $statuses[Model_Customer::STATUS_DEFAULT];
 	}
 
-	public function getBillingAddress($id)	
-	{
-		$customerAddress = Ccc::getModel('Customer_Address_Row');
-		if ($id) {
-			$query = "SELECT * FROM `{$customerAddress->getTableName()}` WHERE `{$customerAddress->getPrimaryKey()}` = '{$id}'";
-			return $customerAddress->fetchRow($query);
-		}
-		return null;
+	public function getBillingAddress(){
+		return Ccc::getModel('Customer_Address_Row')->load($this->billing_address_id);
 	}
 
-	public function getShippingAddress($id)
-	{
-		$customerAddress = Ccc::getModel('Customer_Address_Row');
-		if ($id) {
-			$query = "SELECT * FROM `{$customerAddress->getTableName()}` WHERE `{$customerAddress->getPrimaryKey()}` = '{$id}'";
-			return $customerAddress->fetchRow($query);
-		}
-		return null;
+	public function getShippingAddress(){
+		return Ccc::getModel('Customer_Address_Row')->load($this->shipping_address_id);
 	}
 
-	public function getAddress()
-	{
-		$customerAddress = Ccc::getModel('Customer_Address_Row');
-		$query = "SELECT * FROM `{$customerAddress->geTableName()}` WHERE `{$customerAddress->getPrimaryKey()}` = '{$this->customer_id}'";
-		return $customerAddress->fetchRow($query);
+	public function getAddress(){
+		return Ccc::getModel('Customer_Address_Row')->load($this->customer_id);
 	}
 }
