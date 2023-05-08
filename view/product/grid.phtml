@@ -1,68 +1,56 @@
-<?php $products = $this->products; ?>
-<!DOCTYPE html>
-<html>
-
-<body>
-
-	<?php require_once 'view/html/header.phtml'; ?>
-
-	<div class="container">		
-	<div class="d-flex justify-content-between">
-		<h3>Manage Products</h3>
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button" href="index.php?c=product&a=add">Add Product</a>
-		</div>
+<?php $products = $this->getCollection(); ?>
+<div class="container">		
+<div class="d-flex justify-content-between">
+	<h3>Manage Products</h3>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+ 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button" href="index.php?c=product&a=add">Add Product</a>
 	</div>
-
-	<table class="table table-bordered table-success table-striped w-100">
-		<thead>
-			<tr>
-				<th>Product Id</th>
-				<th>Name</th>
-				<th>SKU</th>
-				<th>Cost</th>
-				<th>Price</th>
-				<th>Quantity</th>
-				<th>Description</th>
-				<th>Status</th>
-				<th>Color</th>
-				<th>Material</th>
-				<th>Small Id</th>
-				<th>Thumbnail Id</th>
-				<th>Base Id</th>
-				<th>Create_At</th>
-				<th>Update_At</th>
-				<th></th>
-				<th></th>
-				<th></th>
-			</tr>
-		</thead>
-		<?php foreach ($products as $product) : ?>
-		<tbody>
-			<tr>
-				<td><?php echo $product->product_id; ?></td>
-				<td><?php echo $product->name; ?></td>
-				<td><?php echo $product->sku; ?></td>
-				<td><?php echo $product->cost; ?></td>
-				<td><?php echo $product->price; ?></td>
-				<td><?php echo $product->quantity; ?></td>
-				<td><?php echo $product->description; ?></td>
-				<td><?php echo $product->getStatusText($product->status); ?></td>
-				<td><?php echo $product->color; ?></td>
-				<td><?php echo $product->material; ?></td>
-				<td><?php echo $product->small_id; ?></td>
-				<td><?php echo $product->thumbnail_id; ?></td>
-				<td><?php echo $product->base_id; ?></td>
-				<td><?php echo $product->create_at; ?></td>
-				<td><?php echo $product->update_at; ?></td>
-				<td>Media</td>
-				<td><a href="index.php?c=product&a=edit&id=<?php echo $product->product_id; ?>">Edit</a></td>
-				<td><a href="index.php?c=product&a=delete&id=<?php echo $product->product_id; ?>">Delete</a></td>
-			</tr>
-		</tbody>
-		<?php endforeach; ?>
-	</table>
-
-	<?php require_once 'view/html/footer.phtml'; ?>
-</body>
-</html>
+</div>
+<table class="table table-bordered table-success table-striped w-100">
+	<thead>
+		<tr>
+			<th>Product Id</th>
+			<th>Name</th>
+			<th>SKU</th>
+			<th>Cost</th>
+			<th>Price</th>
+			<th>Quantity</th>
+			<th>Description</th>
+			<th>Status</th>
+			<th>Color</th>
+			<th>Material</th>
+			<th>Small Id</th>
+			<th>Thumbnail Id</th>
+			<th>Base Id</th>
+			<th>Create_At</th>
+			<th>Update_At</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<?php foreach ($products->getData() as $product) : ?>
+	<tbody>
+		<tr>
+			<td><?php echo $product->product_id; ?></td>
+			<td><?php echo $product->name; ?></td>
+			<td><?php echo $product->sku; ?></td>
+			<td><?php echo $product->cost; ?></td>
+			<td><?php echo $product->price; ?></td>
+			<td><?php echo $product->quantity; ?></td>
+			<td><?php echo $product->description; ?></td>
+			<td><?php echo $product->getStatusText($product->status); ?></td>
+			<td><?php echo $product->color; ?></td>
+			<td><?php echo $product->material; ?></td>
+			<td><?php echo $product->small_id; ?></td>
+			<td><?php echo $product->thumbnail_id; ?></td>
+			<td><?php echo $product->base_id; ?></td>
+			<td><?php echo $product->create_at; ?></td>
+			<td><?php echo $product->update_at; ?></td>
+			<td>Media</td>
+			<td><a href="index.php?c=product&a=edit&id=<?php echo $product->product_id; ?>">Edit</a></td>
+			<td><a href="index.php?c=product&a=delete&id=<?php echo $product->product_id; ?>">Delete</a></td>
+		</tr>
+	</tbody>
+	<?php endforeach; ?>
+</table>

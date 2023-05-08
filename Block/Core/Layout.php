@@ -10,6 +10,9 @@ class Block_Core_Layout extends Block_Core_Template
 
 	public function prePareChildren()
 	{
+		$head = $this->createBlock('Html_Head');
+		$this->addChild('head', $head);
+
 		$header = $this->createBlock('Html_Header');
 		$this->addChild('header', $header);
 

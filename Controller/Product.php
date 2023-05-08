@@ -4,11 +4,10 @@ class Controller_Product extends Controller_Core_Action
 	public function gridAction()
 	{
 		try {
-			$query = "SELECT * FROM `product` ORDER BY `product_id` DESC";
-			$products = Ccc::getModel('Product_Row')->fetchAll($query);
-
-			$this->getView()->setTemplate('product/grid.phtml')->setData(['products' => $products]);
-			$this->render();
+			$layout = $this->getLayout();
+			$grid = $layout->createBlock('Product_Grid');
+			$layout->getChild('content')->addChild('grid', $grid);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -17,8 +16,11 @@ class Controller_Product extends Controller_Core_Action
 	public function addAction()
 	{
 		try {
-			$this->getView()->setTemplate('product/add.phtml');
-			$this->render();
+			$layout = $this->getLayout();
+			$product = Ccc::getModel('Product');
+			$add = $layout->createBlock('Product_Edit')->setData(['product' => $product]);
+			$layout->getChild('content')->addChild('add', $add);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -32,13 +34,15 @@ class Controller_Product extends Controller_Core_Action
 				throw new Exception("Invalid ID.", 1);
 			}
 
-			$product = Ccc::getModel('Product_Row')->load($id);
+			$product = Ccc::getModel('Product')->load($id);
 			if (!$product) {
 				throw new Exception("Data not Posted.", 1);
 			}
 
-			$this->getView()->setTemplate('product/edit.phtml')->setData(['product' => $product]);
-			$this->render();
+			$layout = $this->getLayout();
+			$edit = $layout->createBlock('Product_Edit')->setData(['product' => $product]);
+			$layout->getChild('content')->addChild('edit', $edit);
+			echo $layout->toHtml();
 				
 		} catch (Exception $e) {
 			
@@ -58,14 +62,14 @@ class Controller_Product extends Controller_Core_Action
 			}
 
 			if ($id = (int) $this->getRequest()->getParam('id')) {
-				$product = Ccc::getModel('Product_Row')->load($id);
+				$product = Ccc::getModel('Product')->load($id);
 				if (!$product) {
 					throw new Exception("Data not Posted.", 1);
 				}
 				$product->update_at = date('Y-m-d h:i:s');
 
 			} else {
-				$product = Ccc::getModel('Product_Row');
+				$product = Ccc::getModel('Product');
 				$product->create_at = date('Y-m-d h:i:s');
 			}
 
@@ -89,7 +93,7 @@ class Controller_Product extends Controller_Core_Action
 				throw new Exception("Id not Found.", 1);
 			}
 
-			$product = Ccc::getModel('Product_Row')->load($id);
+			$product = Ccc::getModel('Product')->load($id);
 			$result = $product->delete();
 			if (!$result) {
 				throw new Exception("Product Data Not Deleted.");
