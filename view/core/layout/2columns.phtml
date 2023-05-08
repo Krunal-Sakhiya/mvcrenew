@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<?php echo $this->getChildHtml('head'); ?>
+<body>
+	<table class="table  table-bordered  border-dark w-100 mx-auto">
+		<tr>
+			<td colspan="3"><?php echo $this->getChildHtml('header'); ?></td>
+		</tr>
+		<tr>
+			<td colspan="3" id="message-html"></td>
+		</tr>
+		<tr>
+			<td><?php echo $this->getChildHtml('left'); ?></td>
+			<td colspan="2"><?php echo $this->getChildHtml('content'); ?></td>
+		</tr>
+		<tr class="mx-0">
+			<td colspan="3"><?php echo $this->getChildHtml('footer'); ?></td>
+		</tr>
+	</table>
+</body>
+</html>
