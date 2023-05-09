@@ -4,12 +4,10 @@ class Controller_Vendor extends Controller_Core_Action
 	public function gridAction()
 	{
 		try {
-			$query = "SELECT * FROM `vendor` ORDER BY `vendor_id` DESC";
-			$vendors = Ccc::getModel('Vendor_Row')->fetchAll($query);
-
-			$this->getView()->setTemplate('vendor/grid.phtml')->setData(['vendors' => $vendors]);
-			$this->render();
-			
+			$layout = $this->getLayout();
+			$grid = $layout->createBlock('Vendor_Grid');
+			$layout->getChild('content')->addChild('grid', $grid);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -18,8 +16,13 @@ class Controller_Vendor extends Controller_Core_Action
 	public function addAction()
 	{
 		try {
-			$this->getView()->setTemplate('vendor/add.phtml');
-			$this->render();
+			$layout = $this->getLayout();
+			$vendor = Ccc::getModel('Vendor');
+			$address = Ccc::getModel('Vendor_Address');
+
+			$add = $layout->createBlock('Vendor_Edit')->setData(['vendor' => $vendor, 'address' => $address]);
+			$layout->getChild('content')->addChild('add', $add);
+			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
 			
@@ -29,16 +32,25 @@ class Controller_Vendor extends Controller_Core_Action
 	public function editAction()
 	{
 		try {
-			$vendorId = $this->getRequest()->getParam('id');
-			if (!$vendorId) {
+			$id = $this->getRequest()->getParam('id');
+			if (!$id) {
 				throw new Exception("Invalid ID.", 1);
 			}
 
-			$vendor = Ccc::getModel('Vendor_Row')->load($vendorId);
-			$address = Ccc::getModel('Vendor_Address_Row')->load($vendorId);
+			$vendor = Ccc::getModel('Vendor')->load($id);
+			if (!$vendor) {
+				throw new Exception("Data not Posted.", 1);
+			}
 
-			$this->getView()->setTemplate('vendor/edit.phtml')->setData(['vendor' => $vendor, 'address' => $address]);
-			$this->render();
+			$address = Ccc::getModel('Vendor_Address')->load($id);
+			if (!$address) {
+				throw new Exception("Data not Posted.", 1);
+			}
+
+			$layout = $this->getLayout();
+			$edit = $layout->createBlock('Vendor_Edit')->setData(['vendor' => $vendor, 'address' => $address]);
+			$layout->getChild('content')->addChild('edit', $edit);
+			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
 			
@@ -58,13 +70,13 @@ class Controller_Vendor extends Controller_Core_Action
 			}
 
 			if ($id = (int)$this->getRequest()->getParam('id')) {
-				$vendor = Ccc::getModel('Vendor_Row')->load($id);
+				$vendor = Ccc::getModel('Vendor')->load($id);
 				if (!$vendor) {
 					throw new Exception("Invalid ID.", 1);
 				}
 				$vendor->update_at = date("Y-m-d H:i:s");
 			} else{
-				$vendor = Ccc::getModel('Vendor_Row');
+				$vendor = Ccc::getModel('Vendor');
 				$vendor->create_at = date("Y-m-d H:i:s");
 			}
 
@@ -79,12 +91,12 @@ class Controller_Vendor extends Controller_Core_Action
 			}
 
 			if ($id = (int)$this->getRequest()->getParam('id')) {
-				$vendorAddress = Ccc::getModel('Vendor_Address_Row')->load($id);
+				$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
 				if (!$vendorAddress) {
 					throw new Exception("Invalid ID.", 1);
 				}
 			} else{
-				$vendorAddress = Ccc::getModel('Vendor_Address_Row');
+				$vendorAddress = Ccc::getModel('Vendor_Address');
 				$vendorAddress->vendor_id = $vendor->vendor_id;
 			}
 
@@ -101,21 +113,25 @@ class Controller_Vendor extends Controller_Core_Action
 	public function deleteAction()
 	{
 		try {
-			$id = $this->getRequest()->getParam('id');
+			$id = (int) $this->getRequest()->getParam('id');
 			if (!$id) {
-				throw new Exception("Invalid ID.", 1);
+				throw new Exception("Error Processing Request", 1);
 			}
 
-			$vendor = Ccc::getModel('Vendor_Row')->load($id);
-			$result = $vendor->delete();
-			if (!$result) {
-				throw new Exception("Vendor Data Not Deleted.", 1);
+			$vendor = Ccc::getModel('Vendor')->load($id);
+			if (!$vendor) {
+				throw new Exception("Error Processing Request", 1);
+			}
+			if (!$vendor->delete()) {
+				throw new Exception("Vendor Data Not Deleted Succesfully", 1);
 			}
 
-			$address = Ccc::getModel("Vendor_Address_Row")->load($id);
-			$result = $address->delete();
-			if (!$result) {
-				throw new Exception("Vendor Address Data Not Deleted.", 1);
+			$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
+			if (!$vendorAddress) {
+				throw new Exception("Error Processing Request", 1);
+			}
+			if (!$vendorAddress->delete()) {
+				throw new Exception("Vendor Data Not Deleted Succesfully", 1);
 			}
 
 		} catch (Exception $e) {

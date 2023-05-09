@@ -1,0 +1,50 @@
+<?php
+$rows = $this->getCollection();
+?>
+<div class="container">
+	<div class="d-flex justify-content-between">
+		<h3><?php echo $this->getTitle(); ?></h3>
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<?php foreach ($this->getButtons() as $key => $button) :?>
+			<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button" href="<?php echo $button['url']; ?>"><?php echo $button['title'];?></a>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<table class="table table-bordered table-success table-striped w-100">
+		<thead>
+			<tr>
+                <?php foreach ($this->getColumns() as $key => $column) : ?>
+				    <td><?php echo $column['title']; ?></td>
+                <?php endforeach; ?>
+
+                <?php foreach ($this->getActions() as $key => $action) : ?>
+				    <td><?php echo $action['title']; ?></td>
+                <?php endforeach; ?>
+			</tr>
+		</thead>
+		<?php if (!$rows): ?>
+			<tbody> 
+				<tr>
+					<td colspan="8"> No Record Available.</td>
+				</tr>
+			</tbody>
+		<?php else: ?>
+			<tbody>
+				<?php foreach($rows->getData() as $row): ?>
+					<tr>
+                        <?php foreach ($this->getColumns() as $key => $column) : ?>
+                            <td><?php echo $this->getColumnValue($row, $key); ?></td>
+                        <?php endforeach; ?>
+
+                        <?php foreach ($this->getActions() as $key => $action) : ?>
+                            <td>
+                            	<a type="button" class="btn btn-outline-dark" href="<?php $method = $action['method']; echo $this->$method($row,$key,$action['primaryKey']);?>"><?php echo $action['title']?>
+                            	</a>
+                            </td>
+                        <?php endforeach; ?>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		<?php endif; ?>
+	</table>
+</div>

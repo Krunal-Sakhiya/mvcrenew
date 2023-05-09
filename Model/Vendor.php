@@ -7,17 +7,28 @@ class Model_Vendor extends Model_Core_Table
 	const STATUS_INACTIVE_LBL = 'Inactive';
 	const STATUS_DEFAULT= 1;
 
-	public function __construct()
+	function __construct()
 	{
 		parent::__construct();
-		$this->setTableName('vendor')->setPrimarykey('vendor_id');
+		$this->setResourceClass('Model_Vendor_Resource');
+		$this->setCollectionClass('Model_Vendor_Collection');
 	}
 
-	public function getStatusOptions()
+	public function getStatus()
 	{
-		return [
-			self::STATUS_ACTIVE => self::STATUS_ACTIVE_LBL,
-			self::STATUS_INACTIVE => self::STATUS_INACTIVE_LBL,
-		];
+		if ($this->status) {
+			return $this->status;
+		}
+		return self::STATUS_DEFAULT;
+	}
+
+	public function getStatusText($status)
+	{
+		$statuses = $this->getResource()->getStatusOptions();
+		if (array_key_exists($this->status, $statuses)) {
+			return $statuses[$this->status];
+		}
+
+		return $statuses[self::STATUS_DEFAULT];
 	}
 }
