@@ -48,3 +48,36 @@ $rows = $this->getCollection();
 		<?php endif; ?>
 	</table>
 </div>
+
+
+<nav aria-label="...">
+	<ul class="pagination justify-content-center">
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->start == 0){
+			echo "style='pointer-events : none'";
+		} ?>
+		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->start], true) ?>">
+			Start
+		</a>
+
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->previous == 0){
+			echo "style='pointer-events : none'";
+		} ?>
+		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->previous], true) ?>">
+			Previous
+		</a>
+
+
+		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->currentPage], true) ?>">
+			<?php echo $this->getPager()->currentPage; ?>
+		</a>
+
+
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->end == $this->getPager()->currentPage) {
+			echo "style='pointer-events : none'";
+		} ?> href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->next], true) ?>">Next
+		</a>
+
+		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->end], true) ?>">End
+		</a>
+	</ul>
+</nav>

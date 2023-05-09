@@ -159,4 +159,21 @@ class Block_Core_Grid extends Block_Core_Template
 	{
 		return $this->title;
 	}
+
+    public function getPager()
+    {
+        if ($this->pager) {
+        	return $this->pager;
+        }
+
+        $pager = new Model_Core_Pager();
+        $this->setPager($pager);
+        return $pager;
+    }
+
+    public function setPager($pager)
+    {
+        $this->pager = $pager;
+        return $this;
+    }
 }
