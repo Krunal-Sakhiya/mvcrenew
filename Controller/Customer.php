@@ -4,11 +4,10 @@ class Controller_Customer extends Controller_Core_Action
 	public function gridAction()
 	{
 		try {
-			$query = "SELECT * FROM `customer` ORDER BY `customer_id` DESC";
-			$customers = Ccc::getModel('Customer_Row')->fetchAll($query);
-
-			$this->getView()->setTemplate('customer/grid.phtml')->setData(['customers' => $customers]);
-			$this->render();
+			$layout = $this->getLayout();
+			$grid = $layout->createBlock('Customer_Grid');
+			$layout->getChild('content')->addChild('grid', $grid);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -17,8 +16,15 @@ class Controller_Customer extends Controller_Core_Action
 	public function addAction()
 	{
 		try {
-			$this->getView()->setTemplate('customer/add.phtml');
-			$this->render();
+			$layout = $this->getLayout();
+			$customer = Ccc::getModel('Customer');
+			$billingAddress = Ccc::getModel('Customer_Address');
+			$shippingAddress = Ccc::getModel('Customer_Address');
+
+			$add = $layout->createBlock('Customer_Edit')->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
+			$layout->getChild('content')->addChild('add', $add);
+			echo $layout->toHtml();
+
 		} catch (Exception $e) {
 			
 		}
@@ -31,18 +37,14 @@ class Controller_Customer extends Controller_Core_Action
 			if (!$id) {
 				throw new Exception("Invalid ID", 1);
 			}
-
-			$customer = Ccc::getModel('Customer_Row')->load($id);
+			$layout = $this->getLayout();
+			$customer = Ccc::getModel('Customer')->load($id);
 			$billingAddress = $customer->getBillingAddress();
 			$shippingAddress = $customer->getShippingAddress();
-			
-			// $bId = $customer->billing_address_id;
-			// $sId = $customer->shipping_address_id;
-			// $billingAddress = Ccc::getModel('Customer_Row')->getBillingAddress($bId);
-			// $shippingAddress = Ccc::getModel('Customer_Row')->getShippingAddress($sId);
 
-			$this->getView()->setTemplate('customer/edit.phtml')->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
-			$this->render();
+			$edit = $layout->createBlock('Customer_Edit')->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
+			$layout->getChild('content')->addChild('edit', $edit);
+			echo $layout->toHtml();
 
 		} catch (Exception $e) {
 			
@@ -80,14 +82,14 @@ class Controller_Customer extends Controller_Core_Action
 		}
 
 		if ($id = (int) $this->getRequest()->getParam('id')) {
-			$customer = Ccc::getModel('Customer_Row')->load($id);
+			$customer = Ccc::getModel('Customer')->load($id);
 			if (!$customer) {
 				throw new Exception("Data not found.", 1);
 			}
 			$customer->update_at = date('Y-m-d h:i:s');
 			
 		} else {
-			$customer = Ccc::getModel('Customer_Row');
+			$customer = Ccc::getModel('Customer');
 			$customer->create_at = date('Y-m-d h-i-s');
 		}
 
@@ -110,7 +112,7 @@ class Controller_Customer extends Controller_Core_Action
 
 		$billingAddress = $customer->getBillingAddress($bId);
 		if (!$billingAddress) {
-			$billingAddress = Ccc::getModel('Customer_Address_Row');
+			$billingAddress = Ccc::getModel('Customer_Address');
 			$billingAddress->customer_id = $customer->customer_id;
 		}
 
@@ -133,7 +135,7 @@ class Controller_Customer extends Controller_Core_Action
 
 		$shippingAddress = $customer->getShippingAddress($sId);
 		if (!$shippingAddress) {
-			$shippingAddress = Ccc::getModel('Customer_Address_Row');
+			$shippingAddress = Ccc::getModel('Customer_Address');
 			$shippingAddress->customer_id = $customer->customer_id;
 		} 
 
@@ -153,19 +155,19 @@ class Controller_Customer extends Controller_Core_Action
 				throw new Exception("ID Not Found.", 1);
 			}
 
-			$customer = Ccc::getModel('Customer_Row')->load($id);
+			$customer = Ccc::getModel('Customer')->load($id);
 			if (!$customer->delete()) {
 				throw new Exception("Customer data not deleted.", 1);
 			}
 
 			$bId = $customer->billing_address_id;
-			$billingAddress = Ccc::getModel('Customer_Address_Row')->load($bId);
+			$billingAddress = Ccc::getModel('Customer_Address')->load($bId);
 			if (!$billingAddress->delete()) {
 				throw new Exception("Billing Address Data not deleted.", 1);
 			}
 
 			$sId = $customer->shipping_address_id;
-			$shippingAddress = Ccc::getModel('Customer_Address_Row')->load($sId);
+			$shippingAddress = Ccc::getModel('Customer_Address')->load($sId);
 			if (!$shippingAddress->delete()) {
 				throw new Exception("Shipping Address Data not deleted.", 1);
 			}
