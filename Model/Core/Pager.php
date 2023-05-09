@@ -1,95 +1,180 @@
 <?php
-class Model_Core_View
+class Model_Core_Pager
 {
-    protected $template = null;
-    protected $data = [];
+    public $totalRecord = 0;
+    public $currentPage = 0;
+    public $numberOfPage = 0;
+    public $recordPerPage = 5;
+    public $start = 1;
+    public $previous = 0;
+    public $next = 0;
+    public $end = 0;
+    public $startLimit = 0;
+    public $recordPerPageOptions = [10,20,50,100,200];
 
     public function __construct()
     {
-        
+        $this->setCurrentPage();
     }
 
-    public function setTemplate($template)
+    public function getCurrentPage()
     {
-        $this->template = $template;
+        return $this->currentPage;
+    }
+
+   
+    public function setCurrentPage()
+    {
+        $this->currentPage = (int)Ccc::getModel('Core_Request')->getParam('p', 1);
         return $this;
     }
 
-    public function getTemplate()
+    public function calculate()
     {
-        return $this->template;
-    }
+        $numberOfPage = ceil( $this->getTotalRecord() / $this->getRecordPerPage());
+        $this->setNumberOfPage($numberOfPage);
 
-    public function __set($key, $value)
-    {
-        $this->data[$key] = $value;
-    }
-
-    public function __get($key)
-    {
-        if (!array_key_exists($key, $this->data)) {
-            return null;
+        if ($this->getNumberOfPage() == 0) {
+            $this->currentPage = 0;
         }
 
-        return $this->data[$key];
+        if ($this->getNumberOfPage() == 1 || ($this->getNumberOfPage() > 1 && $this->currentPage <= 0)) {
+            $this->currentPage = 1;
+        }
+
+        if ($this->getCurrentPage() > $this->getNumberOfPage()) {
+            $this->currentPage = $this->getNumberOfPage();
+        }
+
+        $this->setStart(1);
+        if (!$this->getNumberOfPage()) {
+            $this->setStart(0);
+        }
+        if ($this->getCurrentPage() == 1) {
+            $this->setStart(0);
+        }
+
+        $this->setEnd($this->getNumberOfPage());
+        if ($this->getEnd() > $this->getNumberOfPage()) {
+            $this->setEnd($this->getNumberOfPage());
+        }
+
+        $this->setPrevious($this->getCurrentPage()-1);
+        if ($this->getCurrentPage() <= 1) {
+            $this->setPrevious(0);
+        }
+
+        $this->setNext($this->getCurrentPage() + 1);
+        if ($this->getCurrentPage() == $this->getNumberOfPage()) {
+            $this->setNext(0);
+        }
+
+        $this->setStartLimit((($this->getCurrentPage() - 1)*($this->getRecordPerPage())));
+    }
+ 
+    public function getTotalRecord()
+    {
+        return $this->totalRecord;
     }
 
-    public function __unset($key)
+    public function setTotalRecord($totalRecord)
     {
-        unset($this->data[$key]);
-    }
-
-    public function setData($data)
-    {
-        $this->data = $data;
+        $this->totalRecord = $totalRecord;
         return $this;
     }
 
-    public function getData($key = null)
+    public function getRecordPerPage()
     {
-        if (!$key) {
-            return $this->data;
-        }
-
-        if (!array_key_exists($key, $this->data)) {
-            return null;
-        }
-
-        return $this->data[$key];
+        return $this->recordPerPage;
     }
 
-    public function addData($key, $value)
+    
+    public function setRecordPerPage($recordPerPage)
     {
-        $this->data[$key] = $value;
+        $this->recordPerPage = $recordPerPage;
         return $this;
     }
 
-    public function removeData($key)
+    
+    public function getNumberOfPage()
     {
-        if (!$key) {
-            return $this->data = [];
-        }
+        return $this->numberPage;
+    }
 
-        if (!array_key_exists($key, $this->data)) {
-            unset($this->data[$key]);
-        }
-
+    
+    public function setNumberOfPage($numberPage)
+    {
+        $this->numberPage = $numberPage;
         return $this;
     }
 
-    public function render()
+    
+    public function getStart()
     {
-        require "View".DS.$this->getTemplate();
+        return $this->start;
     }
 
-    public function getUrl($action = null, $controller = null, $params = [], $reset = false)
+    
+    public function setStart($start)
     {
-        $url = Ccc::getModel('Core_Url')->getUrl($action, $controller, $params, $reset);
-        return $url;
+        $this->start = $start;
+        return $this;
     }
 
-    public function getMessage()
+    
+    public function getPrevious()
     {
-        return Ccc::getModel('Core_Message');       
+        return $this->previous;
+    }
+
+    
+    public function setPrevious($previous)
+    {
+        $this->previous = $previous;
+        return $this;
+    }
+    
+    public function getNext()
+    {
+        return $this->next;
+    }
+    
+    public function setNext($next)
+    {
+        $this->next = $next;
+        return $this;
+    }
+    
+    public function getEnd()
+    {
+        return $this->end;
+    }
+    
+    public function setEnd($end)
+    {
+        $this->end = $end;
+        return $this;
+    }
+    
+    public function getStartLimit()
+    {
+        return $this->startLimit;
+    }
+    
+    public function setStartLimit($startLimit)
+    {
+        $this->startLimit = $startLimit;
+        return $this;
+    }
+
+    public function getRecordPerPageOptions()
+    {
+        return $this->recordPerPageOptions;
+    }
+    
+    public function setRecordPerPageOptions($recordPerPageOptions)
+    {
+        $this->recordPerPageOptions = $recordPerPageOptions;
+        return $this;
     }
 }
