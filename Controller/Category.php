@@ -4,11 +4,10 @@ class Controller_Category extends Controller_Core_Action
 	public function gridAction()
 	{
 		try {
-			$query = "SELECT * FROM `category` ORDER BY `category_id` ASC";
-			$categorys = Ccc::getModel('Category_Row')->fetchAll($query);
-
-			$this->getView()->setTemplate('category/grid.phtml')->setData(['categorys' => $categorys]);
-			$this->render(); 
+			$layout = $this->getLayout();
+			$grid = $layout->createBlock('Category_Grid');
+			$layout->getChild('content')->addChild('grid', $grid);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -17,8 +16,11 @@ class Controller_Category extends Controller_Core_Action
 	public function addAction()
 	{
 		try {
-			$this->getView()->setTemplate('category/add.phtml');
-			$this->render();
+			$layout = $this->getLayout();
+			$category = Ccc::getModel('Category');
+			$add = $layout->createBlock('Category_Edit')->setData(['category' => $category]);
+			$layout->getChild('content')->addChild('add', $add);
+			echo $layout->toHtml();
 		} catch (Exception $e) {
 			
 		}
@@ -27,12 +29,21 @@ class Controller_Category extends Controller_Core_Action
 	public function editAction()
 	{
 		try {
-			$id = (int) $this->getRequest()->getParam('id');
+			$id = $this->getRequest()->getParam('id');
+			if (!$id) {
+				throw new Exception("Invalid ID.", 1);
+			}
 
-			$category = Ccc::getModel('Category_Row')->load($id);
+			$category = Ccc::getModel('Category')->load($id);
+			if (!$category) {
+				throw new Exception("Data not Posted.", 1);
+			}
 
-			$this->getView()->setTemplate('category/edit.phtml')->setData(['category' => $category]);
-			$this->render();
+			$layout = $this->getLayout();
+			$edit = $layout->createBlock('Category_Edit')->setData(['category' => $category]);
+			$layout->getChild('content')->addChild('edit', $edit);
+			echo $layout->toHtml();
+				
 		} catch (Exception $e) {
 			
 		}
@@ -50,18 +61,15 @@ class Controller_Category extends Controller_Core_Action
 				throw new Exception("Data not found.", 1);
 			}
 
-				echo "<pre>";
 			if ($id = (int) $this->getRequest()->getParam('id')) {
-				$category = Ccc::getModel('Category_Row')->load($id);
-				print_r($category);
-				die();
+				$category = Ccc::getModel('Category')->load($id);
 				if (!$category) {
 					throw new Exception("Data not found.", 1);
 				}
 					
 				$category->update_at = date('Y-m-d h:i:s');
 			} else {
-				$category = Ccc::getModel('Category_Row');
+				$category = Ccc::getModel('Category');
 				$category->create_at = date('Y-m-d h-i-s');
 			}
 
@@ -84,7 +92,7 @@ class Controller_Category extends Controller_Core_Action
 				throw new Exception("ID Not Found.", 1);
 			}
 			
-			$category = Ccc::getModel('Category_Row')->load($id);
+			$category = Ccc::getModel('Category')->load($id);
 			if (!$category->delete()) {
 				throw new Exception("Category Data Not Deleted.", 1);
 			}
