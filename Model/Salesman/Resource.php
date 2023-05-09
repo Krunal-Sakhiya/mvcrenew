@@ -1,17 +1,17 @@
 <?php
-class Model_Vendor_Resource extends Model_Core_Table_Resource
+class Model_Salesman_Resource extends Model_Core_Table_Resource
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->setResourceName('vendor')->setPrimarykey('vendor_id');
+		$this->setResourceName('salesman')->setPrimarykey('salesman_id');
 	}
 
 	public function getStatusOptions()
 	{
 		return [
-			Model_Vendor::STATUS_ACTIVE => Model_Vendor::STATUS_ACTIVE_LBL,
-			Model_Vendor::STATUS_INACTIVE => Model_Vendor::STATUS_INACTIVE_LBL,
+			Model_Salesman::STATUS_ACTIVE => Model_Salesman::STATUS_ACTIVE_LBL,
+			Model_Salesman::STATUS_INACTIVE => Model_Salesman::STATUS_INACTIVE_LBL,
 		];
 	}
 }
