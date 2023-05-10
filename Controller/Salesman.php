@@ -10,7 +10,7 @@ class Controller_Salesman extends Controller_Core_Action
 			echo $layout->toHtml();
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -26,7 +26,7 @@ class Controller_Salesman extends Controller_Core_Action
 			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -54,7 +54,7 @@ class Controller_Salesman extends Controller_Core_Action
 			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -101,11 +101,12 @@ class Controller_Salesman extends Controller_Core_Action
 
 			$address->setData($postData['address']);
 			if (!$address->save()) {
-				throw new Exception("Salesman Data Not Saved Successfully.", 1);
+				throw new Exception("Salesman Address Data Not Saved Successfully.", 1);
 			}
+			$this->getView()->getMessage()->addMessages("Salesman Data Saved Successfully.");
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'salesman', null, true);
 	}
@@ -115,27 +116,18 @@ class Controller_Salesman extends Controller_Core_Action
 		try {
 			$id = (int) $this->getRequest()->getParam('id');
 			if (!$id) {
-				throw new Exception("Error Processing Request", 1);
+				throw new Exception("Invalid ID.", 1);
 			}
 
 			$salesman = Ccc::getModel('Salesman')->load($id);
-			if (!$salesman) {
-				throw new Exception("Error Processing Request", 1);
-			}
 			if (!$salesman->delete()) {
 				throw new Exception("Salesman Data Not Deleted Succesfully", 1);
 			}
-
-			$salesmanAddress = Ccc::getModel('Salesman_Address')->load($id);
-			if (!$salesmanAddress) {
-				throw new Exception("Error Processing Request", 1);
-			}
-			if (!$salesmanAddress->delete()) {
-				throw new Exception("Salesman Data Not Deleted Succesfully", 1);
-			}
+			
+			$this->getView()->getMessage()->addMessages("Salesman Data Deleted Succesfully.");
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'salesman', null, true);
 	}

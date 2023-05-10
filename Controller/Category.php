@@ -9,7 +9,7 @@ class Controller_Category extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid', $grid);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -22,6 +22,7 @@ class Controller_Category extends Controller_Core_Action
 			$layout->getChild('content')->addChild('add', $add);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 			
 		}
 	}
@@ -45,7 +46,7 @@ class Controller_Category extends Controller_Core_Action
 			echo $layout->toHtml();
 				
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -77,9 +78,10 @@ class Controller_Category extends Controller_Core_Action
 			if (!$category->save()) {
 				throw new Exception("Category Data Not Saved Successfully.", 1);
 			}
+			$this->getView()->getMessage()->addMessages("Category Data Saved Succesfully.");
 				
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'category', null, true);
 	}
@@ -94,11 +96,11 @@ class Controller_Category extends Controller_Core_Action
 			
 			$category = Ccc::getModel('Category')->load($id);
 			if (!$category->delete()) {
-				throw new Exception("Category Data Not Deleted.", 1);
+				throw new Exception("Category Data Not Deleted Succesfully.", 1);
 			}
-				
+			$this->getView()->getMessage()->addMessages("Category Data Deleted Succesfully.");
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'category', null, true);
 	}

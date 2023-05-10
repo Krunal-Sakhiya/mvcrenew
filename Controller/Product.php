@@ -78,7 +78,7 @@ class Controller_Product extends Controller_Core_Action
 			if (!$result) {
 				throw new Exception("Product Data not Saved Successfully", 1);
 			}
-			$this->getView()->getMessage()->addMessages('Product Data Saved Succesfully.', Model_Core_Message::SUCCESS);
+			$this->getView()->getMessage()->addMessages('Product Data Saved Succesfully.');
 
 		} catch (Exception $e) {
 			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
@@ -99,7 +99,8 @@ class Controller_Product extends Controller_Core_Action
 			if (!$result) {
 				throw new Exception("Product Data Not Deleted Succesfully.");
 			}
-			$this->getView()->getMessage()->addMessages('Product Data Deleted Succesfully.', Model_Core_Message::SUCCESS);
+
+			$this->getView()->getMessage()->addMessages('Product Data Deleted Succesfully.');
 				
 		} catch (Exception $e) {
 			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);

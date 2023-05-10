@@ -9,7 +9,7 @@ class Controller_Customer extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid', $grid);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -26,7 +26,7 @@ class Controller_Customer extends Controller_Core_Action
 			echo $layout->toHtml();
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -47,7 +47,7 @@ class Controller_Customer extends Controller_Core_Action
 			echo $layout->toHtml();
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -65,11 +65,12 @@ class Controller_Customer extends Controller_Core_Action
 			$customer->shipping_address_id = $shippingAddress->address_id;
 
 			if (!$customer->save()) {
-				throw new Exception("Customer data not saved.", 1);
+				throw new Exception("Customer Data Not Saved Successfully.", 1);
 			}
+			$this->getView()->getMessage()->addMessages("Customer Data Saved Successfully.");
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'customer', null, true);
 	}
@@ -157,23 +158,24 @@ class Controller_Customer extends Controller_Core_Action
 
 			$customer = Ccc::getModel('Customer')->load($id);
 			if (!$customer->delete()) {
-				throw new Exception("Customer data not deleted.", 1);
+				throw new Exception("Customer Data Not Deleted Successfully.", 1);
 			}
 
 			$bId = $customer->billing_address_id;
 			$billingAddress = Ccc::getModel('Customer_Address')->load($bId);
 			if (!$billingAddress->delete()) {
-				throw new Exception("Billing Address Data not deleted.", 1);
+				throw new Exception("Billing Address Data Not Deleted Successfully.", 1);
 			}
 
 			$sId = $customer->shipping_address_id;
 			$shippingAddress = Ccc::getModel('Customer_Address')->load($sId);
 			if (!$shippingAddress->delete()) {
-				throw new Exception("Shipping Address Data not deleted.", 1);
+				throw new Exception("Shipping Address Data Not Deleted Successfully.", 1);
 			}
+			$this->getView()->getMessage()->addMessages("Customer Data Deleted Successfully.");
 				
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'customer', null, true);
 	}
