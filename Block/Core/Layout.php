@@ -16,6 +16,9 @@ class Block_Core_Layout extends Block_Core_Template
 		$header = $this->createBlock('Html_Header');
 		$this->addChild('header', $header);
 
+		$message = $this->createBlock('Html_Message');
+		$this->addChild('message', $message);
+
 		$footer = $this->createBlock('Html_Footer');
 		$this->addChild('footer', $footer);
 

@@ -22,7 +22,7 @@ class Controller_Core_Front
 
     public function init()
     {
-        // $session = Ccc::getModel('Core_Message')->getSession()->start();
+        $session = Ccc::getModel('Core_Message')->getSession()->start();
     	$request = $this->getRequest();
 
         $controllerName = $request->getControllerName();

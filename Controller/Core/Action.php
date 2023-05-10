@@ -6,7 +6,8 @@ class Controller_Core_Action
     protected $view = null;
     protected $layout = null;
     protected $url = null;
-    // protected $layout = null;
+    protected $session = null;
+    protected $message = null;
 
     public function setRequest(Model_Core_Request $request)
     {
@@ -93,6 +94,38 @@ class Controller_Core_Action
         return $this;
     }
 
+    public function setMessage(Model_Core_Message $message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    public function getMessage()
+    {
+        if($this->message){
+            return $this->message;
+        }
+
+        $message = new Model_Core_Message();
+        $this->setMessage($message);
+        return $message;
+    }
+
+    public function setSession($session)
+    {
+        $this->session = $session;
+        return $this;
+    }
+
+    public function getSession()
+    {
+        if ($this->session) {
+            return $this->session;
+        }
+        $session = new Model_Core_Session();
+        $this->setSession($session);
+        return $session;
+    }
 
     public function getTemplate($templatePath)
     {
@@ -114,7 +147,5 @@ class Controller_Core_Action
     public function errorAction($action)
     {
         throw new Exception("method: {$action} does not exists");
-    }
-
-    
+    }  
 }
