@@ -1,8 +1,6 @@
 <?php
 class Block_Salesman_Grid extends Block_Core_Grid
 {
-	protected $title = null;
-
 	function __construct()
 	{
 		parent::__construct();
@@ -14,7 +12,12 @@ class Block_Salesman_Grid extends Block_Core_Grid
 
 	public function getCollection()
 	{
-		$query = "SELECT * FROM `salesman` ORDER BY `salesman_id` ASC";
+		$query = "SELECT count(`salesman_id`) FROM `salesman` ORDER BY `salesman_id` DESC";
+        $totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
+
+        $this->getPager()->setTotalRecord($totalRecord)->calculate();
+        
+		$query = "SELECT * FROM `salesman` ORDER BY `salesman_id` DESC LIMIT {$this->getPager()->getStartLimit()}, {$this->getPager()->getRecordPerPage()}";
 		$salesmans = Ccc::getModel('Salesman')->fetchAll($query);
 		return $salesmans;
 	}
