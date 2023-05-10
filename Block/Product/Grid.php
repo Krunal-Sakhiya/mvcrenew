@@ -1,8 +1,6 @@
 <?php
 class Block_Product_Grid extends Block_Core_Grid
 {
-	protected $title = null;
-
 	function __construct()
 	{
 		parent::__construct();

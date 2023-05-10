@@ -1,16 +1,16 @@
 <?php
 class Model_Core_Pager
 {
-    public $totalRecord = 0;
-    public $currentPage = 0;
-    public $numberOfPage = 0;
-    public $recordPerPage = 5;
-    public $start = 1;
-    public $previous = 0;
-    public $next = 0;
-    public $end = 0;
-    public $startLimit = 0;
-    public $recordPerPageOptions = [10,20,50,100,200];
+    protected $totalRecord = 0;
+    protected $currentPage = 0;
+    protected $numberOfPage = 0;
+    protected $recordPerPage = 10;
+    protected $start = 1;
+    protected $previous = 0;
+    protected $next = 0;
+    protected $end = 0;
+    protected $startLimit = 0;
+    protected $recordPerPageOptions = [10,20,50,100,200];
 
     public function __construct()
     {

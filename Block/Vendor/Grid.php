@@ -1,8 +1,6 @@
 <?php
 class Block_Vendor_Grid extends Block_Core_Grid
 {
-	protected $title = null;
-
 	function __construct()
 	{
 		parent::__construct();
@@ -14,7 +12,12 @@ class Block_Vendor_Grid extends Block_Core_Grid
 
 	public function getCollection()
 	{
-		$query = "SELECT * FROM `vendor` ORDER BY `vendor_id` ASC";
+		$query = "SELECT count(`vendor_id`) FROM `vendor` ORDER BY `vendor_id` DESC";
+        $totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
+
+        $this->getPager()->setTotalRecord($totalRecord)->calculate();
+        
+		$query = "SELECT * FROM `vendor` ORDER BY `vendor_id` DESC LIMIT {$this->getPager()->getStartLimit()}, {$this->getPager()->getRecordPerPage()}";
 		$vendors = Ccc::getModel('Vendor')->fetchAll($query);
 		return $vendors;
 	}

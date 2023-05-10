@@ -52,32 +52,32 @@ $rows = $this->getCollection();
 
 <nav aria-label="...">
 	<ul class="pagination justify-content-center">
-		<a class="page-item page-link" type="button" <?php if ($this->getPager()->start == 0){
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->getStart() == 0){
 			echo "style='pointer-events : none'";
 		} ?>
-		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->start], true) ?>">
+		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->getStart()], true) ?>">
 			Start
 		</a>
 
-		<a class="page-item page-link" type="button" <?php if ($this->getPager()->previous == 0){
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->getPrevious() == 0){
 			echo "style='pointer-events : none'";
 		} ?>
-		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->previous], true) ?>">
+		 href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->getPrevious()], true) ?>">
 			Previous
 		</a>
 
 
-		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->currentPage], true) ?>">
-			<?php echo $this->getPager()->currentPage; ?>
+		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->getCurrentPage()], true) ?>">
+			<?php echo $this->getPager()->getCurrentPage(); ?>
 		</a>
 
 
-		<a class="page-item page-link" type="button" <?php if ($this->getPager()->end == $this->getPager()->currentPage) {
+		<a class="page-item page-link" type="button" <?php if ($this->getPager()->getEnd() == $this->getPager()->getCurrentPage()) {
 			echo "style='pointer-events : none'";
-		} ?> href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->next], true) ?>">Next
+		} ?> href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->getNext()], true) ?>">Next
 		</a>
 
-		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->end], true) ?>">End
+		<a class="page-item page-link" type="button" href="<?php echo $this->getUrl('grid', null, ['p' => $this->getPager()->getEnd()], true) ?>">End
 		</a>
 	</ul>
 </nav>
