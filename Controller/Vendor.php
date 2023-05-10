@@ -9,7 +9,7 @@ class Controller_Vendor extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid', $grid);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -25,7 +25,7 @@ class Controller_Vendor extends Controller_Core_Action
 			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -53,7 +53,7 @@ class Controller_Vendor extends Controller_Core_Action
 			echo $layout->toHtml();
 			
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -104,8 +104,10 @@ class Controller_Vendor extends Controller_Core_Action
 			if (!$vendorAddress->save()) {
 				throw new Exception("Unable to Save Vendor.", 1);
 			}
+
+			$this->getView()->getMessage()->addMessages("Vendor Data Saved Succesfully.");
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid','vendor',null,true);
 	}
@@ -126,16 +128,10 @@ class Controller_Vendor extends Controller_Core_Action
 				throw new Exception("Vendor Data Not Deleted Succesfully", 1);
 			}
 
-			$vendorAddress = Ccc::getModel('Vendor_Address')->load($id);
-			if (!$vendorAddress) {
-				throw new Exception("Error Processing Request", 1);
-			}
-			if (!$vendorAddress->delete()) {
-				throw new Exception("Vendor Data Not Deleted Succesfully", 1);
-			}
+			$this->getView()->getMessage()->addMessages("Vendor Data Deleted Succesfully.");
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'vendor', null, true);
 	}

@@ -1,5 +1,5 @@
-<?php
-class Model_Core_Session
+<?php 
+class Model_Core_Session 
 {
 	public function start()
 	{
@@ -33,7 +33,6 @@ class Model_Core_Session
 		if (!array_key_exists($key, $_SESSION)) {
 			return null;
 		}
-
 		return $_SESSION[$key];
 	}
 
@@ -43,8 +42,6 @@ class Model_Core_Session
 		if (array_key_exists($key, $_SESSION)) {
 			unset($_SESSION[$key]);
 		}
-
-		return null;
 	}
 
 	public function has($key)
@@ -53,7 +50,6 @@ class Model_Core_Session
 		if (array_key_exists($key, $_SESSION)) {
 			return true;
 		}
-
-		return false;	
+		return false;
 	}
 }
