@@ -1,0 +1,18 @@
+<div class="container-fluid">
+	<?php
+		$messages = Ccc::getModel('Core_Message')->getMessages();
+		if ($messages) {
+			foreach ($messages as $type => $message) {
+				if ($type == 'success') {
+					?> <p class="<?php echo $type; ?> alert alert-success" role="alert"> <?php echo $message; ?> </p>  <?php
+				} elseif($type == 'failure') {
+					?> <p class="<?php echo $type; ?> alert alert-danger" role="alert"> <?php echo $message; ?> </p>  <?php
+				} else {
+					?> <p class="<?php echo $type; ?> alert alert-warning" role="alert"> <?php echo $message; ?> </p>  <?php
+				}
+			}
+		}
+		Ccc::getModel('Core_Message')->clearMessages();
+		Ccc::getModel('Core_Message')->getSession()->destroy();
+	?>
+</div>

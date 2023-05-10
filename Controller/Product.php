@@ -9,7 +9,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('grid', $grid);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -22,7 +22,7 @@ class Controller_Product extends Controller_Core_Action
 			$layout->getChild('content')->addChild('add', $add);
 			echo $layout->toHtml();
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -45,7 +45,7 @@ class Controller_Product extends Controller_Core_Action
 			echo $layout->toHtml();
 				
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 	}
 
@@ -78,9 +78,10 @@ class Controller_Product extends Controller_Core_Action
 			if (!$result) {
 				throw new Exception("Product Data not Saved Successfully", 1);
 			}
+			$this->getView()->getMessage()->addMessages('Product Data Saved Succesfully.', Model_Core_Message::SUCCESS);
 
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'product', null, true);
 	}
@@ -96,11 +97,12 @@ class Controller_Product extends Controller_Core_Action
 			$product = Ccc::getModel('Product')->load($id);
 			$result = $product->delete();
 			if (!$result) {
-				throw new Exception("Product Data Not Deleted.");
+				throw new Exception("Product Data Not Deleted Succesfully.");
 			}
+			$this->getView()->getMessage()->addMessages('Product Data Deleted Succesfully.', Model_Core_Message::SUCCESS);
 				
 		} catch (Exception $e) {
-			
+			$this->getView()->getMessage()->addMessages($e->getMessage(), Model_Core_Message::FAILURE);
 		}
 		$this->redirect('grid', 'product', null, true);
 	}
