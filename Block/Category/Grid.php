@@ -12,12 +12,12 @@ class Block_Category_Grid extends Block_Core_Grid
 
 	public function getCollection()
 	{
-		$query = "SELECT count(`category_id`) FROM `category` ORDER BY `category_id` DESC";
+		$query = "SELECT count(`category_id`) FROM `category` ORDER BY `category_id` ASC";
         $totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
 
         $this->getPager()->setTotalRecord($totalRecord)->calculate();
         
-		$query = "SELECT * FROM `category` ORDER BY `category_id` DESC LIMIT {$this->getPager()->getStartLimit()}, {$this->getPager()->getRecordPerPage()}";
+		$query = "SELECT * FROM `category` WHERE `parent_id` > 0 ORDER BY `path`ASC LIMIT {$this->getPager()->getStartLimit()}, {$this->getPager()->getRecordPerPage()}";
 		$categorys = Ccc::getModel('Category')->fetchAll($query);
 		return $categorys;
 	}
@@ -28,7 +28,7 @@ class Block_Category_Grid extends Block_Core_Grid
 			'title' => 'Category Id'
 		]);
 
-		$this->addColumn('name', [
+		$this->addColumn('path', [
 			'title' => 'Name'
 		]);
 

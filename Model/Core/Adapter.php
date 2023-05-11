@@ -93,7 +93,7 @@ class Model_Core_Adapter
 		$data = $result->fetch_all();
 
 		$column1 = array_column($data, 0);
-		$column2 = array_column($data, 0);
+		$column2 = array_column($data, 1);
 
 		if (!$column2) {
 			$column2 = array_fill(0, count($column1), null);

@@ -72,7 +72,7 @@ class Controller_Product extends Controller_Core_Action
 				$product = Ccc::getModel('Product');
 				$product->create_at = date('Y-m-d h:i:s');
 			}
-
+			
 			$product->setData($postData['product']);
 			$result = $product->save();
 			if (!$result) {

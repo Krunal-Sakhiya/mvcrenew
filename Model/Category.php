@@ -41,13 +41,14 @@ class Model_Category extends Model_Core_Table
 
 	public function prePathCategories()
 	{
+		echo "<pre>";
 		$category = Ccc::getModel('Category');
 		$query = "SELECT `category_id`, `name` FROM `{$category->getResource()->getResourceName()}` ORDER BY `path` ASC";
 		$categories = $category->getResource()->getAdapter()->fetchPairs($query);
 
 		$sql = "SELECT `category_id`, `path` FROM `{$category->getResource()->getResourceName()}` ORDER BY `path` ASC";
 		$pathCategory = $category->getResource()->getAdapter()->fetchPairs($sql);
-
+ 
 		foreach ($pathCategory as $category_id => $path) {
 			$string = explode('=', $path);
 			$final = [];
