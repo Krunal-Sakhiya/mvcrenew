@@ -1,4 +1,6 @@
-<?php $category = $this->getRow(); ?>
+<?php $final = $this->getRow(); ?>
+<?php $category = $final[0]; ?>
+<?php $pathCategories = $final[1]; ?>
 <div class="container m-4">		
 	<div class="d-flex justify-content-between">
 		<h3>Edit Category</h3>
@@ -8,6 +10,20 @@
 	</div>
 
 	<form method="post" action="index.php?c=category&a=save&id=<?php echo $category->category_id;; ?>">
+		<fieldset class="row mb-3">
+			<legend class="col-form-label col-sm-2 pt-0">Parent Category</legend>
+			<div class="col-sm-10">
+				<div class="form-check">
+					<select name="category[parent_id]" class="form-select" aria-label="Default select example">
+						<?php foreach($pathCategories as $category_id => $path): ?>
+						<?php $selected = ($category_id == $category->parent_id) ? 'selected' : '' ?>
+							<option value="<?php echo $category_id ?>" <?php echo $selected; ?>><?php echo $category->getPathCategories($category_id) ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+		</fieldset>
+
 		<div class="row mb-3">
 			<label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
 			<div class="col-sm-10">
