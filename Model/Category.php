@@ -41,13 +41,15 @@ class Model_Category extends Model_Core_Table
 
 	public function prePathCategories()
 	{
-		echo "<pre>";
+		// echo "<pre>";
 		$category = Ccc::getModel('Category');
 		$query = "SELECT `category_id`, `name` FROM `{$category->getResource()->getResourceName()}` ORDER BY `path` ASC";
 		$categories = $category->getResource()->getAdapter()->fetchPairs($query);
+		// print_r($categories);
 
 		$sql = "SELECT `category_id`, `path` FROM `{$category->getResource()->getResourceName()}` ORDER BY `path` ASC";
 		$pathCategory = $category->getResource()->getAdapter()->fetchPairs($sql);
+		// print_r($pathCategory);
  
 		foreach ($pathCategory as $category_id => $path) {
 			$string = explode('=', $path);
@@ -72,8 +74,10 @@ class Model_Category extends Model_Core_Table
 		}
 
 		$oldPath = $this->path;
+		print_r($oldPath);
 
 		$parent = Ccc::getModel('Category')->load($this->parent_id);
+		print_r($parent);
 		if (!$parent) {
 			$this->path = $this->getId();
 		}
@@ -86,6 +90,7 @@ class Model_Category extends Model_Core_Table
 		$query = "UPDATE `category`
 		SET `path` = REPLACE(`path`, '{$oldPath}=', '{$this->path}=')
 		WHERE `path` LIKE '{$oldPath}=%' ORDER BY `path` ASC ";
+		print_r($query);
 		$this->getResource()->getAdapter()->update($query);
 
 		return $this;
