@@ -77,7 +77,10 @@ class Controller_Category extends Controller_Core_Action
 			$category->setData($postData['category']);
 			if (!$category->save()) {
 				throw new Exception("Category Data Not Saved Successfully.", 1);
+			} else{
+				$category->updatePath();
 			}
+			
 			$this->getView()->getMessage()->addMessages("Category Data Saved Succesfully.");
 				
 		} catch (Exception $e) {
