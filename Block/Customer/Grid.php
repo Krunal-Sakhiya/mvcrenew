@@ -55,7 +55,7 @@ class Block_Customer_Grid extends Block_Core_Grid
 		$this->addColumn('company', [
 			'title' => 'Company'
 		]);
-
+		
 		$this->addColumn('create_at', [
 			'title' => 'Create At'
 		]);
