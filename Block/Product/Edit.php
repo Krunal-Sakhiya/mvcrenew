@@ -7,7 +7,7 @@ class Block_Product_Edit extends Block_Core_Template
 		$this->setTemplate('product/edit.phtml');
 	}
 
-	public function getCollection()
+	public function getRow()
 	{
 		$row = $this->getData('product');
 		return $row;
