@@ -1,0 +1,165 @@
+<?php 
+$attribute = $this->getRow();
+$attributeOptions = $this->getAttributeOption();
+$entityOptions = Ccc::getModel('Core_Eav_Attribute')->getEntityType();
+?>
+<div class="container m-4">		
+	<div class="d-flex justify-content-between">
+		<h3>Save EAV Attribute</h3>
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button"  href="index.php?c=eav_attribute&a=grid">Cancel</a>
+		</div>
+	</div>
+
+	<form method="post" action="index.php?c=eav_attribute&a=save&id=<?php echo $attribute->attribute_id; ?>">
+
+		<fieldset class="row mb-3">
+			<legend class="col-form-label col-sm-2 pt-0">Entity Type</legend>
+			<div class="col-sm-5">
+				<div class="form-check">
+					<select name="attribute[entity_type_id]" class="form-select" aria-label="Default select example">
+                   		<?php foreach ($entityOptions as $key => $value): ?>
+                   		<option value="<?php echo $key ?>" <?php echo ($attribute->entity_type_id == $key)? 'selected' :''?>> <?php echo $value ?></option> 
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-5"></div>
+		</fieldset>
+
+		<div class="row mb-3">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Code</label>
+			<div class="col-sm-5">
+				<input type="text" name="attribute[code]" class="form-control" value="<?php echo $attribute->code; ?>">
+			</div>
+			<div class="col-sm-5"></div>
+		</div>
+
+		<fieldset class="row mb-3">
+			<legend class="col-form-label col-sm-2 pt-0">Backend Type</legend>
+			<div class="col-sm-5">
+				<div class="form-check">
+					<select name="attribute[backend_type]" class="form-select" aria-label="Default select example">
+						<option value="integer" <?php echo ($attribute->backend_type  == 'integer')? 'selected':'' ?>> Integer </option>
+						<option value="varchar" <?php echo ($attribute->backend_type  == 'varchar')? 'selected':'' ?>> Varchar </option>
+						<option value="decimal" <?php echo ($attribute->backend_type  == 'decimal')? 'selected':'' ?>> Decimal </option>
+						<option value="datetime" <?php echo ($attribute->backend_type  == 'datetime')? 'selected':'' ?>> Datetime </option>
+						<option value="text" <?php echo ($attribute->backend_type  == 'text')? 'selected':'' ?>> Text </option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-5"></div>
+		</fieldset>
+
+		<fieldset class="row mb-3">
+			<legend class="col-form-label col-sm-2 pt-0">Input Type</legend>
+			<div class="col-sm-5">
+				<div class="form-check">
+					<select id="inputTypeSelect" onchange="changeInputType(this)" name="attribute[input_type]" class="form-select" aria-label="Default select example">
+						<option value="select" <?php echo ($attribute->input_type  == 'select' )? 'selected':'' ?>> Select </option>
+						<option value="multiselect" <?php echo ($attribute->input_type  == 'multiselect' )? 'selected':'' ?>> Multi Select </option>
+						<option value="text" <?php echo ($attribute->input_type  == 'text' )? 'selected':'' ?>> Text </option>
+						<option value="textArea" <?php echo ($attribute->input_type  == 'textArea' )? 'selected':'' ?>> Text Area </option>
+						<option value="radio" <?php echo ($attribute->input_type  == 'radio' )? 'selected':'' ?>> Radio </option>
+						<option value="checkBox" <?php echo ($attribute->input_type  == 'checkBox' )? 'selected':'' ?>> Check Box </option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-5">
+				<div id="inputTypeOptionDiv">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Option</th>
+                                <th>Position</th>
+                                <th><input type="button" name="add" value="ADD" id="addOption" /></th>
+                            </tr>
+                        </thead>
+                        <tbody id="inputTypeOptionTable">
+                            <?php if($attributeOptions): ?>
+                                    <?php foreach($attributeOptions->getData() as $attributeOption) : ?>
+                                    <tr>
+                                        <td><input type="text" name="option[exist][name][<?php echo $attributeOption->option_id; ?>]" value="<?php echo $attributeOption->name; ?>"/></td>
+                                        <td><input type="text" name="option[exist][position][<?php echo $attributeOption->option_id; ?>]" value="<?php echo $attributeOption->position; ?>"/></td>
+                                        <td><input type="button" name="remove" value="REMOVE 1" class="removeOption" ></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+		</fieldset>
+
+		<div class="row mb-3">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Name</label>
+			<div class="col-sm-5">
+				<input type="text" name="attribute[name]" class="form-control" value="<?php echo $attribute->name; ?>">
+			</div>
+			<div></div>
+		</div>
+
+		<fieldset class="row mb-3">
+			<legend class="col-form-label col-sm-2 pt-0">Status</legend>
+			<div class="col-sm-5">
+				<div class="form-check">
+					<select name="attribute[status]" class="form-select" aria-label="Default select example">
+						<?php foreach($attribute->getResource()->getStatusOptions() as $key => $value): ?>
+						<?php $selected = ($key == $attribute->getStatus()) ? 'selected' : '' ?>
+							<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $value; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-5"></div>
+		</fieldset>
+
+		<div class="row mb-3">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Backend Model</label>
+			<div class="col-sm-5">
+				<input type="text" name="attribute[backend_model]" class="form-control" value="<?php echo $attribute->backend_model; ?>">
+			</div>
+			<div class="col-sm-5"></div>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+
+<table style="display: none;">
+    <tbody id="inputTypeOptionDefault">
+        <tr>
+            <td><input type="text" name="option[new][name][]" /></td>
+            <td><input type="text" name="option[new][position][]" /></td>
+            <td><input type="button" name="remove" value="REMOVE" class="removeOption" ></td>
+        </tr>
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+$('.removeOption').click(function () {
+    $(this).parent().parent().remove();
+});
+
+$('#addOption').click(function () {
+    $('#inputTypeOptionTable').prepend($('#inputTypeOptionDefault').html());
+});
+
+$('#inputTypeSelect').change(function () {
+    var inputType = $(this);
+
+    if (inputType.val() == 'select' || inputType.val() == 'multiselect' || inputType.val() == 'radio' || inputType.val() == 'checkBox') {
+        $('#inputTypeOptionDiv').show();
+    }
+    else{
+        $('#inputTypeOptionDiv').hide();
+    }
+});
+
+$(document).ready(function () {
+    $('#inputTypeSelect').trigger('change');
+ 
+});
+
+</script>
