@@ -12,7 +12,16 @@ class Block_Core_Eav_Attribute_Grid extends Block_Core_Grid
 
 	public function getCollection()
 	{
-		$query = "SELECT * FROM `eav_attribute` WHERE 1";
+		$query = "SELECT count(`attribute_id`) FROM `eav_attribute` ORDER BY `attribute_id` DESC";
+        $totalRecord = Ccc::getModel('Core_Adapter')->fetchOne($query);
+
+        $this->getPager()->setTotalRecord($totalRecord)->calculate();
+
+		$query = "SELECT EA.* , ET.type_name 
+					FROM `eav_attribute` EA 
+					LEFT JOIN `entity_type` ET 
+					ON EA.entity_type_id=ET.entity_type_id 
+					LIMIT {$this->getPager()->getStartLimit()}, {$this->getPager()->getRecordPerPage()}";
 		$attributes = Ccc::getModel('Core_Eav_Attribute')->fetchAll($query);
 		return $attributes;
 	}
@@ -23,8 +32,8 @@ class Block_Core_Eav_Attribute_Grid extends Block_Core_Grid
 			'title' => 'Attribute Id'
 		]);
 
-		$this->addColumn('entity_type_id', [
-			'title' => 'Entity Type Id'
+		$this->addColumn('type_name', [
+			'title' => 'Type Name'
 		]);
 
 		$this->addColumn('code', [
@@ -61,7 +70,7 @@ class Block_Core_Eav_Attribute_Grid extends Block_Core_Grid
 		]);
 
 		$this->addAction('delete', [
-			'title' => 'delete',
+			'title' => 'Delete',
 			'method' => 'getDeleteUrl',
 			'primaryKey' => 'id'
 		]);
