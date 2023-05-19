@@ -142,9 +142,6 @@ class Model_Core_Table
 			$column = $this->getPrimaryKey();
 		}
 		$sql = "SELECT * FROM `{$this->getResourceName()}` WHERE `{$column}` = '{$id}'";
-		// echo "<pre>";
-		// print_r($sql);
-		// die();
 		$result = $this->getResource()->fetchRow($sql);
 		if ($result) {
 			$this->setData($result);
@@ -179,7 +176,7 @@ class Model_Core_Table
 		return $collection;
 	}
 
-	public function save()
+	public function save() 
 	{	
 		if (!array_key_exists($this->getPrimaryKey(), $this->data)) {
 			$insertId = $this->getResource()->insert($this->data);

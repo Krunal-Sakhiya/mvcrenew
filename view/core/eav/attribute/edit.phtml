@@ -3,11 +3,11 @@ $attribute = $this->getRow();
 $attributeOptions = $this->getAttributeOption();
 $entityOptions = Ccc::getModel('Core_Eav_Attribute')->getEntityType();
 ?>
-<div class="container m-4">		
+<div class="container m-4">
 	<div class="d-flex justify-content-between">
 		<h3>Save EAV Attribute</h3>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button"  href="index.php?c=eav_attribute&a=grid">Cancel</a>
+	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button"  href="<?php echo $this->getUrl('grid', 'eav_attribute') ?>">Cancel</a>
 		</div>
 	</div>
 
@@ -83,7 +83,7 @@ $entityOptions = Ccc::getModel('Core_Eav_Attribute')->getEntityType();
                                         <td><input type="button" name="remove" value="REMOVE 1" class="removeOption" ></td>
                                     </tr>
                                     <?php endforeach; ?>
-                                <?php endif; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -136,29 +136,24 @@ $entityOptions = Ccc::getModel('Core_Eav_Attribute')->getEntityType();
 </table>
 
 <script type="text/javascript">
+	
+$('#inputTypeSelect').change(function () {
+	var inputType = $(this);
 
-$('.removeOption').click(function () {
-    $(this).parent().parent().remove();
+	if (inputType.val() == 'select' || inputType.val() == 'multiselect' || inputType.val() == 'radio' || inputType.val() == 'checkBox') {
+		$('#inputTypeOptionDiv').show();
+	} else {
+		$('#inputTypeOptionDiv').hide();
+	}
 });
+
 
 $('#addOption').click(function () {
-    $('#inputTypeOptionTable').prepend($('#inputTypeOptionDefault').html());
+	$('#inputTypeOptionTable').prepend($('#inputTypeOptionDefault').html());
 });
 
-$('#inputTypeSelect').change(function () {
-    var inputType = $(this);
-
-    if (inputType.val() == 'select' || inputType.val() == 'multiselect' || inputType.val() == 'radio' || inputType.val() == 'checkBox') {
-        $('#inputTypeOptionDiv').show();
-    }
-    else{
-        $('#inputTypeOptionDiv').hide();
-    }
-});
-
-$(document).ready(function () {
-    $('#inputTypeSelect').trigger('change');
- 
+$('.removeOption').click(function () {
+	$(this).parent().parent().remove();
 });
 
 </script>

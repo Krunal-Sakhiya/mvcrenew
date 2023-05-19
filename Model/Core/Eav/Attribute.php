@@ -41,8 +41,8 @@ class Model_Core_Eav_Attribute extends Model_Core_Table
 	}
 
 	public function getEntityType()
-   {
-      $sql = "SELECT `entity_type_id`,`name` FROM `entity_type`";
-      return $this->getResource()->getAdapter()->fetchPairs($sql);
-   }
+	{
+	  $sql = "SELECT `entity_type_id`,`type_name` FROM `entity_type`";
+	  return $this->getResource()->getAdapter()->fetchPairs($sql);
+	}
 }

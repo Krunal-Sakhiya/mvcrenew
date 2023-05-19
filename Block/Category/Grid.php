@@ -70,6 +70,5 @@ class Block_Category_Grid extends Block_Core_Grid
 			'title' => 'Add Category',
 			'url' => $this->getUrl('add', 'category')
 		]);
-
 	}
 }
