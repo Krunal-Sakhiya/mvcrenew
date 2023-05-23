@@ -1,9 +1,10 @@
+<?php $attribute = $this->getAttribute(); ?>
 <?php $product = $this->getRow(); ?>
 <div class="container m-4">		
 	<div class="d-flex justify-content-between">
 		<h3>Save Products</h3>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button" href="<?php echo $this->getUrl('grid', 'product') ?>">Cancel</a>
+	 		<a class="btn btn-outline-primary me-md-2 m-4 mx-0" type="button" href="<?php echo $this->getUrl('grid', 'product', null, true) ?>">Cancel</a>
 		</div>
 	</div>
 	<form method="post" action="index.php?c=product&a=save&id=<?php echo $product->product_id;; ?>">
@@ -86,6 +87,19 @@
 				</div>
 			</div>
 		</fieldset>
+
+		<div class="row mb-3">
+		<?php foreach($attribute as $key => $attribute) : ?>
+			<label for="inputPassword3" class="col-sm-2 col-form-label"><?php echo $attribute->name; ?></label>
+			<div class="col-sm-10">
+				<?php echo $this->getLayout()
+							->createBlock('Core_Eav_Attribute_InputType')
+							->setAttribute($attribute)
+							->setRow($product)
+							->toHtml(); ?>
+			</div>
+		<?php endforeach; ?>
+		</div>
 
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>

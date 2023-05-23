@@ -1,0 +1,10 @@
+<?php
+$attribute = $this->getAttribute();
+$row = $this->getRow();
+?>
+
+<div class="row mb-3">
+	<input class="form-control" type="text" 
+	name="attribute[<?php echo $attribute->backend_type; ?>][<?php echo $attribute->getId(); ?>]" 
+	value="<?php echo $row->getAttributeValue($attribute); ?>">
+</div>

@@ -64,18 +64,6 @@ class Block_Product_Grid extends Block_Core_Grid
 			'title' => 'Material'
 		]);
 
-		$this->addColumn('small_id', [
-			'title' => 'Small Id'
-		]);
-
-		$this->addColumn('thumbnail_id', [
-			'title' => 'Thumbnail Id'
-		]);
-
-		$this->addColumn('base_id', [
-			'title' => 'Base ID'
-		]);
-
 		$this->addColumn('create_at', [
 			'title' => 'Create At'
 		]);
@@ -87,12 +75,6 @@ class Block_Product_Grid extends Block_Core_Grid
 
 	protected function prePareActions()
 	{
-		$this->addAction('media', [
-			'title' => 'Media',
-			'method' => 'getMediaUrl',
-			'primaryKey' => 'product_id'
-		]);
-
 		$this->addAction('edit', [
 			'title' => 'Edit',
 			'method' => 'getEditUrl',

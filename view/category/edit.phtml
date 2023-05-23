@@ -1,6 +1,7 @@
 <?php $final = $this->getRow(); ?>
 <?php $category = $final[0]; ?>
 <?php $pathCategories = $final[1]; ?>
+<?php $attributes = $this->getAttribute(); ?>
 <div class="container m-4">		
 	<div class="d-flex justify-content-between">
 		<h3>Edit Category</h3>
@@ -50,6 +51,19 @@
 			<div class="col-sm-10">
 				<textarea name="category[description]" class="form-control" cols="60" rows="3"><?php echo $category->description; ?></textarea>
 			</div>
+		</div>
+
+		<div class="row mb-3">
+		<?php foreach($attributes as $key => $attribute) : ?>
+			<label for="inputPassword3" class="col-sm-2 col-form-label"><?php echo $attribute->name; ?></label>
+			<div class="col-sm-10">
+				<?php echo $this->getLayout()
+							->createBlock('Core_Eav_Attribute_InputType')
+							->setAttribute($attribute)
+							->setRow($category)
+							->toHtml(); ?>
+			</div>
+		<?php endforeach; ?>
 		</div>
 
 		<button type="submit" class="btn btn-primary">Submit</button>

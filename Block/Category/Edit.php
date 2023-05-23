@@ -23,4 +23,10 @@ class Block_Category_Edit extends Block_Core_Template
 		$final = [$category, $parentCategories];
 		return $final;
 	}
+
+	public function getAttribute()
+	{
+		$attribute = Ccc::getModel('Category')->getAttribute();
+		return $attribute;
+	}
 }

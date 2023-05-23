@@ -1,0 +1,10 @@
+<?php
+$attribute = $this->getAttribute();
+$row = $this->getRow();
+?>
+
+<div class="row mb-3">
+	<div class="col-sm-10">
+		<textarea name="attribute[<?php echo $attribute->backend_type ?>][<?php echo $attribute->getId() ?>]" class="form-control" cols="60" rows="3"><?php echo $row->getAttributeValue($attribute); ?></textarea>
+	</div>
+</div>
