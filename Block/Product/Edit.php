@@ -12,4 +12,10 @@ class Block_Product_Edit extends Block_Core_Template
 		$row = $this->getData('product');
 		return $row;
 	}
+
+	public function getAttribute()
+	{
+		$attribute = Ccc::getModel('Product')->getAttribute();
+		return $attribute;
+	}
 }

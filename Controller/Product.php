@@ -77,6 +77,20 @@ class Controller_Product extends Controller_Core_Action
 			$result = $product->save();
 			if (!$result) {
 				throw new Exception("Product Data not Saved Successfully", 1);
+			} else {
+				$attributePostData = $this->getRequest()->getPost('attribute');
+
+				foreach ($attributePostData as $backendType => $value) {
+					foreach ($value as $attributeId => $val) {
+						if (is_array($val)) {
+							$val = implode(",", $val);
+						}
+						$model = Ccc::getModel("Core_Table");
+						$resource = $model->getResource()->setResourceName("product_{$backendType}")->setPrimarykey('value_id');
+						$query = "INSERT INTO `product_{$backendType}` (`entity_id`, `attribute_id`, `value`) VALUES ('{$product->getId()}', '{$attributeId}', '{$val}') ON DUPLICATE KEY UPDATE `value` = '{$val}'";
+						$result = $model->getResource()->getAdapter()->query($query);	
+					}
+				}
 			}
 			$this->getView()->getMessage()->addMessages('Product Data Saved Succesfully.');
 

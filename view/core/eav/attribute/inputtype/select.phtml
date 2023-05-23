@@ -1,0 +1,22 @@
+<?php
+$attribute = $this->getAttribute();
+$row = $this->getRow();
+$options = $attribute->getOptions();
+?>
+
+<fieldset class="row mb-3">
+	<div class="col-sm-15">
+		<div class="form-check">
+			<select class="form-select" name="attribute[<?php echo $attribute->backend_type ?>][<?php echo $attribute->getId() ?>]">
+				<?php if($options): ?>
+					<?php foreach($options->getData() as $option) : ?>
+						<?php $selected = ($row->getAttributeValue($attribute) == $option->option_id)? 'selected':'' ?>
+						<option value="<?php echo $option->option_id ?>"<?php echo $selected; ?>>
+							<?php echo $option->name; ?>				
+						</option>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</select>
+		</div>
+	</div>
+</fieldset>

@@ -89,4 +89,18 @@ class Model_Category extends Model_Core_Table
 
 		return $this;
 	}
+
+	public function getAttribute()
+	{
+		$query = "SELECT * FROM `eav_attribute` WHERE `entity_type_id` = 2";
+		$attribute = Ccc::getModel('Core_Eav_Attribute')->fetchAll($query);
+		return $attribute->getData();
+	}
+
+	public function getAttributeValue($attribute)
+	{
+		$query = "SELECT `value` FROM `category_{$attribute->backend_type}` WHERE `entity_id` = '{$this->getId}' AND `attribute_id` = '{$attribute->getId()}';";
+		$row = $this->getResource()->getAdapter()->fetchOne($query);
+		return $row;
+	}
 }
